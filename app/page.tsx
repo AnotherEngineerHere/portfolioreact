@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { useTheme } from 'next-themes'
@@ -168,10 +168,10 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
       tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       github: "https://github.com/johndoe/ecommerce-project",
       demo: "",
-      details: "This e-commerce platform offers a seamless shopping experience with features like real-time inventory tracking, secure payments via Stripe, and a responsive design for mobile and desktop users."
+      details: "My personal portfolio website, built using Next.js and styled with TailwindCSS."
     }
   ]
-  const showProjectDetails = (project) => {
+  const showProjectDetails = (project: { title: string; description: string; tags: string[]; github: string; details: string; demo?: undefined } | { title: string; description: string; tags: string[]; github: string; demo: string; details: string }) => {
     toast.dismiss() // Cierra cualquier alerta existente
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
@@ -206,13 +206,6 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
       <div className="grid md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
           <Card key={index} className="overflow-hidden hover:shadow-md transition-shadow">
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={300}
-              height={150}
-              className="w-full object-cover h-40"
-            />
             <CardContent className="p-4">
               <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
               <p className="text-muted-foreground mb-4">{project.description}</p>
@@ -283,7 +276,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   ];
 
 
-  const showExperienceDetails = (exp) => {
+  const showExperienceDetails = (exp: { title: any; company: any; period: any; description?: string; details: any }) => {
     toast.dismiss() // Cierra cualquier alerta existente
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
@@ -298,7 +291,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
                 {exp.period}
               </p>
               <ul className="mt-2 text-sm text-gray-500 dark:text-gray-400 list-disc list-inside">
-                {exp.details.map((detail, index) => (
+                {exp.details.map((detail: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
                   <li key={index}>{detail}</li>
                 ))}
               </ul>
