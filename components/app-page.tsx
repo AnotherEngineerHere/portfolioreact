@@ -23,7 +23,7 @@ const useToastLimit = (limit: number) => {
   }, [toasts, limit])
 }
 
-export default function Portfolio() {
+export function Page() {
   const [activeSection, setActiveSection] = useState('about')
   const { theme, setTheme } = useTheme()
   useToastLimit(1) // Limita las alertas a una a la vez
@@ -43,27 +43,20 @@ export default function Portfolio() {
       <Toaster position="top-center" />
       <div className="container mx-auto px-4 py-8">
         <header className="flex justify-between items-center mb-12">
-          <h1 className="text-4xl font-bold">Juan Andres Orozco Nuñez</h1>
+          <h1 className="text-4xl font-bold">John Doe</h1>
           <div className="flex items-center space-x-4">
-            {/* <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button> */}
-            <a href="mailto:tuemail@ejemplo.com">
-              <Button variant="ghost" size="icon">
-                <Mail className="h-5 w-5" />
-              </Button>
-            </a>
-            <a href="https://www.linkedin.com/in/tu-perfil" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon">
-                <Linkedin className="h-5 w-5" />
-              </Button>
-            </a>
-            <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon">
-                <Code className="h-5 w-5" />
-              </Button>
-            </a>
-
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Code className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Linkedin className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Mail className="h-5 w-5" />
+            </Button>
             <Button onClick={handleDownloadCV} variant="outline">
               <Download className="mr-2 h-4 w-4" /> Download CV
             </Button>
@@ -72,7 +65,7 @@ export default function Portfolio() {
 
         <nav className="mb-8">
           <ul className="flex justify-center space-x-4">
-            {['about', 'experience', 'projects', 'education'].map((section) => (
+            {['about', 'projects', 'experience', 'education'].map((section) => (
               <li key={section}>
                 <Button
                   variant={activeSection === section ? "default" : "ghost"}
@@ -90,8 +83,8 @@ export default function Portfolio() {
 
         <main className="space-y-16">
           <AboutMe setActiveSection={setActiveSection} />
-          <Experience setActiveSection={setActiveSection} />
           <Projects setActiveSection={setActiveSection} />
+          <Experience setActiveSection={setActiveSection} />
           <Education setActiveSection={setActiveSection} />
         </main>
       </div>
@@ -128,20 +121,20 @@ function AboutMe({ setActiveSection }: { setActiveSection: (section: string) => 
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
           src="/placeholder.svg?height=200&width=200"
-          alt="Juan Andrés Orozco Núñez"
+          alt="John Doe"
           width={200}
           height={200}
           className="rounded-full shadow-md"
         />
         <div className="flex-1 space-y-4">
           <p className="text-lg">
-            Hello! I'm Juan Andrés Orozco Núñez, a passionate software developer with expertise in backend technologies like .NET, Spring Boot, and Java. I enjoy creating robust and scalable solutions.
+            Hello! I'm John Doe, a passionate full-stack developer with expertise in React, Next.js, and Node.js. I love creating user-friendly and efficient web applications that solve real-world problems.
           </p>
           <p className="text-lg">
-            I have experience in developing microservices and applications that optimize performance and implement strong architectural practices. I am committed to continuous learning and improvement in software development.
+            With a strong foundation in front-end development and a keen eye for design, I strive to build intuitive and visually appealing interfaces that provide an excellent user experience. I'm always eager to learn new technologies and stay up-to-date with the latest industry trends.
           </p>
           <div className="flex flex-wrap gap-2">
-            {['Java', 'Spring Boot', 'Microservices', 'Docker', 'AWS', '.NET'].map((skill) => (
+            {['React', 'Next.js', 'Node.js', 'TypeScript', 'TailwindCSS', 'GraphQL'].map((skill) => (
               <span key={skill} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
                 {skill}
               </span>
@@ -156,21 +149,34 @@ function AboutMe({ setActiveSection }: { setActiveSection: (section: string) => 
 function Projects({ setActiveSection }: { setActiveSection: (section: string) => void }) {
   const projects = [
     {
-      title: "URL Shortener",
-      description: "A service for shortening long URLs into more manageable links, built with Java and Spring Boot.",
-      tags: ['Java', 'Spring Boot', 'Docker'],
-      github: "https://github.com/AnotherEngineerHere/URLShortener",
-      details: "This project allows users to shorten URLs and track click metrics. Built with Java and Spring Boot, it leverages Docker for deployment."
-    },
-    {
-      title: "Portfolio",
+      title: "E-commerce Website",
       description: "A responsive online store built with React and Node.js, featuring real-time inventory updates and secure payment processing.",
+      image: "/placeholder.svg?height=150&width=300",
       tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       github: "https://github.com/johndoe/ecommerce-project",
-      demo: "",
-      details: "This e-commerce platform offers a seamless shopping experience with features like real-time inventory tracking, secure payments via Stripe, and a responsive design for mobile and desktop users."
+      demo: "https://ecommerce-project-demo.com",
+      details: "This e-commerce platform offers a seamless shopping experience with features like real-time inventory tracking, secure payments via Stripe, and a responsive design for mobile and desktop users. The project utilizes React for the frontend, Node.js and Express for the backend, and MongoDB for data storage. Key features include user authentication, product search and filtering, shopping cart functionality, and order tracking."
+    },
+    {
+      title: "Real-time Chat App",
+      description: "A chat application using WebSockets and React, allowing instant messaging and file sharing between users.",
+      image: "/placeholder.svg?height=150&width=300",
+      tags: ['React', 'Socket.io', 'Express', 'Redis'],
+      github: "https://github.com/johndoe/realtime-chat",
+      demo: "https://realtime-chat-demo.com",
+      details: "This real-time chat application enables users to communicate instantly and share files seamlessly. Built with React on the frontend and Express on the backend, it leverages Socket.io for real-time bidirectional event-based communication. Redis is used as a message broker to ensure scalability. Features include private messaging, group chats, file uploads, message history, and real-time notifications."
+    },
+    {
+      title: "Portfolio Website",
+      description: "This single-page portfolio built with Next.js, showcasing my projects and skills with a modern, responsive design.",
+      image: "/placeholder.svg?height=150&width=300",
+      tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
+      github: "https://github.com/johndoe/portfolio",
+      demo: "https://johndoe-portfolio.com",
+      details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations powered by Framer Motion, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
     }
   ]
+
   const showProjectDetails = (project) => {
     toast.dismiss() // Cierra cualquier alerta existente
     toast.custom((t) => (
@@ -178,6 +184,13 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
             <div className="flex-shrink-0 pt-0.5">
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={50}
+                height={50}
+                className="h-10 w-10 rounded-full"
+              />
             </div>
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -246,42 +259,41 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   const experiences = [
     {
       title: "Senior Developer",
-      company: "Codesa",
-      period: "July 2023 - Present",
+      company: "Tech Co.",
+      period: "2020 - Present",
       description: "Led a team of developers in creating innovative web solutions, focusing on scalable architectures and performance optimization.",
       details: [
-        "Spearheaded the development of a high-traffic e-commerce platform, resulting in a 40% increase in conversion rates.",
-        "Implemented CI/CD pipelines, reducing deployment time by 60% and improving overall team productivity.",
-        "Mentored junior developers, conducting code reviews and organizing knowledge-sharing sessions.",
-        "Introduced microservices architecture, enhancing system scalability and maintainability."
+        "Spearheaded the development of a high-traffic e-commerce platform, resulting in a 40% increase in conversion rates",
+        "Implemented CI/CD pipelines, reducing deployment time by 60% and improving overall team productivity",
+        "Mentored junior developers, conducting code reviews and organizing knowledge-sharing sessions",
+        "Introduced microservices architecture, enhancing system scalability and maintainability"
       ]
     },
     {
-      title: "Software Developer",
-      company: "EyS Ingeniería de Colombia",
-      period: "November 2021 - July 2023",
-      description: "Contributed to the development of various client projects using Java, Spring Boot, and microservices architecture.",
+      title: "Junior Developer",
+      company: "Startup Inc.",
+      period: "2018 - 2020",
+      description: "Contributed to the development of various client projects using React and Node.js, improving code quality and implementing best practices.",
       details: [
-        "Developed and maintained backend services for client-facing applications, improving reliability and performance.",
-        "Collaborated with cross-functional teams to define project requirements and deliver solutions on time.",
-        "Participated in code reviews and agile development processes, enhancing team collaboration.",
-        "Utilized AWS for deploying and managing cloud infrastructure, ensuring scalability and security."
+        "Developed and maintained multiple client-facing web applications using React and Redux",
+        "Collaborated with UX/UI designers to implement responsive and accessible front-end solutions",
+        "Optimized database queries and API endpoints, improving application performance by 30%",
+        "Participated in agile development processes, including daily stand-ups and sprint planning"
       ]
     },
     {
-      title: "Freelancer",
-      company: "Self-Employed",
-      period: "2020 - Present",
-      description: "Created virtual stores and optimized SEO for various clients using WordPress, enhancing their online presence.",
+      title: "Intern",
+      company: "Web Solutions LLC",
+      period: "2017 - 2018",
+      description: "Assisted in the development of responsive websites and learned industry best practices, gaining hands-on experience with modern web technologies.",
       details: [
-        "Designed and developed multiple e-commerce websites using WordPress, leading to improved user experience.",
-        "Implemented SEO strategies that increased organic traffic by over 50% for several client sites.",
-        "Provided ongoing support and maintenance for client websites, ensuring optimal performance and security.",
-        "Conducted training sessions for clients on how to manage their websites effectively."
+        "Assisted in the development of responsive websites for small to medium-sized businesses",
+        "Learned and applied best practices in HTML5, CSS3, and JavaScript",
+        "Contributed to the company's internal tool for project management, built with React",
+        "Participated in code reviews and improved coding skills through mentor feedback"
       ]
     }
-  ];
-
+  ]
 
   const showExperienceDetails = (exp) => {
     toast.dismiss() // Cierra cualquier alerta existente
@@ -289,7 +301,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
-
+            
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {exp.title} at {exp.company}
@@ -318,7 +330,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   }
 
   return (
-    <Section id="experience" title="Experience" setActiveSection={setActiveSection}>
+    <Section id="experience" title="My Experience" setActiveSection={setActiveSection}>
       <div className="space-y-8">
         {experiences.map((exp, index) => (
           <div key={index} className="flex">
@@ -345,22 +357,16 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
 function Education({ setActiveSection }: { setActiveSection: (section: string) => void }) {
   const education = [
     {
-      degree: "Bachelor Degree in Software Engineering",
-      school: "UNAD",
-      year: "2024",
-      description: "In Progress"
+      degree: "Master of Science in Computer Science",
+      school: "Tech University",
+      year: "2018",
+      description: "Focused on advanced web technologies and machine learning, completing a thesis on real-time data processing in web applications."
     },
     {
-      degree: "Asociate Degree Web Development and Multimedia",
-      school: "SENA",
-      year: "2023",
-      description: "In Course"
-    },
-    {
-      degree: "Bachelor Degree in Software Engineering",
-      school: "ICESI",
-      year: "2017-2023",
-      description: "Retired"
+      degree: "Bachelor of Science in Software Engineering",
+      school: "State University",
+      year: "2016",
+      description: "Gained a strong foundation in software development principles and practices, with a minor in User Experience Design."
     }
   ]
 
