@@ -8,8 +8,14 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, ChevronRight, Code, Linkedin, Mail, ExternalLink, Sun, Moon } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-// Función para limitar las alertas a una a la vez
+// Function to limit toasts to one at a time
 const useToastLimit = (limit: number) => {
   const { toasts } = useToasterStore()
   useEffect(() => {
@@ -23,10 +29,49 @@ const useToastLimit = (limit: number) => {
   }, [toasts, limit])
 }
 
+// Language translations
+const translations = {
+  en: {
+    about: "About",
+    projects: "Projects",
+    experience: "Experience",
+    education: "Education",
+    downloadCV: "Download CV",
+    aboutMe: "About Me",
+    myProjects: "My Projects",
+    myExperience: "My Experience",
+    educationAndCourses: "Education and Courses",
+    moreInfo: "More Info",
+    close: "Close",
+    viewDetails: "View Details",
+    formalEducation: "Formal Education",
+    additionalCourses: "Additional Courses",
+  },
+  es: {
+    about: "Sobre mí",
+    projects: "Proyectos",
+    experience: "Experiencia",
+    education: "Educación",
+    downloadCV: "Descargar CV",
+    aboutMe: "Sobre mí",
+    myProjects: "Mis Proyectos",
+    myExperience: "Mi Experiencia",
+    educationAndCourses: "Educación y Cursos",
+    moreInfo: "Más Información",
+    close: "Cerrar",
+    viewDetails: "Ver Detalles",
+    formalEducation: "Educación Formal",
+    additionalCourses: "Cursos Adicionales",
+  }
+}
+
 export function Page() {
   const [activeSection, setActiveSection] = useState('about')
   const { theme, setTheme } = useTheme()
-  useToastLimit(1) // Limita las alertas a una a la vez
+  const [language, setLanguage] = useState('en')
+  useToastLimit(1) // Limit toasts to one at a time
+
+  const t = translations[language]
 
   const handleDownloadCV = () => {
     // Replace this URL with the actual URL of your CV PDF
@@ -36,6 +81,10 @@ export function Page() {
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'es' : 'en')
   }
 
   return (
@@ -48,6 +97,15 @@ export function Page() {
             <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{language === 'en' ? 'EN' : 'ES'}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('es')}>Español</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="ghost" size="icon">
               <Code className="h-5 w-5" />
             </Button>
@@ -58,7 +116,7 @@ export function Page() {
               <Mail className="h-5 w-5" />
             </Button>
             <Button onClick={handleDownloadCV} variant="outline">
-              <Download className="mr-2 h-4 w-4" /> Download CV
+              <Download className="mr-2 h-4 w-4" /> {t.downloadCV}
             </Button>
           </div>
         </header>
@@ -74,7 +132,7 @@ export function Page() {
                     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' })
                   }}
                 >
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                  {t[section]}
                 </Button>
               </li>
             ))}
@@ -82,10 +140,10 @@ export function Page() {
         </nav>
 
         <main className="space-y-16">
-          <AboutMe setActiveSection={setActiveSection} />
-          <Projects setActiveSection={setActiveSection} />
-          <Experience setActiveSection={setActiveSection} />
-          <Education setActiveSection={setActiveSection} />
+          <AboutMe setActiveSection={setActiveSection} t={t} />
+          <Projects setActiveSection={setActiveSection} t={t} />
+          <Experience setActiveSection={setActiveSection} t={t} />
+          <Education setActiveSection={setActiveSection} t={t} />
         </main>
       </div>
     </div>
@@ -115,12 +173,12 @@ function Section({ id, title, children, setActiveSection }: { id: string; title:
   )
 }
 
-function AboutMe({ setActiveSection }: { setActiveSection: (section: string) => void }) {
+function AboutMe({ setActiveSection, t }: { setActiveSection: (section: string) => void, t: any }) {
   return (
-    <Section id="about" title="About Me" setActiveSection={setActiveSection}>
+    <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
-          src="/placeholder.svg?height=200&width=200"
+          src="/john-doe-profile.jpg"
           alt="John Doe"
           width={200}
           height={200}
@@ -146,12 +204,12 @@ function AboutMe({ setActiveSection }: { setActiveSection: (section: string) => 
   )
 }
 
-function Projects({ setActiveSection }: { setActiveSection: (section: string) => void }) {
+function Projects({ setActiveSection, t }: { setActiveSection: (section: string) => void, t: any }) {
   const projects = [
     {
       title: "E-commerce Website",
       description: "A responsive online store built with React and Node.js, featuring real-time inventory updates and secure payment processing.",
-      image: "/placeholder.svg?height=150&width=300",
+      image: "/ecommerce-project.jpg",
       tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
       github: "https://github.com/johndoe/ecommerce-project",
       demo: "https://ecommerce-project-demo.com",
@@ -160,7 +218,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
     {
       title: "Real-time Chat App",
       description: "A chat application using WebSockets and React, allowing instant messaging and file sharing between users.",
-      image: "/placeholder.svg?height=150&width=300",
+      image: "/chat-app.jpg",
       tags: ['React', 'Socket.io', 'Express', 'Redis'],
       github: "https://github.com/johndoe/realtime-chat",
       demo: "https://realtime-chat-demo.com",
@@ -169,7 +227,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
     {
       title: "Portfolio Website",
       description: "This single-page portfolio built with Next.js, showcasing my projects and skills with a modern, responsive design.",
-      image: "/placeholder.svg?height=150&width=300",
+      image: "/portfolio-website.jpg",
       tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
       github: "https://github.com/johndoe/portfolio",
       demo: "https://johndoe-portfolio.com",
@@ -178,7 +236,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
   ]
 
   const showProjectDetails = (project) => {
-    toast.dismiss() // Cierra cualquier alerta existente
+    toast.dismiss() // Close any existing toast
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
@@ -207,7 +265,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
             onClick={() => toast.dismiss(t.id)}
             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Close
+            {t.close}
           </button>
         </div>
       </div>
@@ -215,7 +273,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
   }
 
   return (
-    <Section id="projects" title="My Projects" setActiveSection={setActiveSection}>
+    <Section id="projects" title={t.myProjects} setActiveSection={setActiveSection}>
       <div className="grid md:grid-cols-2 gap-8">
         {projects.map((project, index) => (
           <Card key={index} className="overflow-hidden hover:shadow-md transition-shadow">
@@ -237,7 +295,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
                 ))}
               </div>
               <Button variant="outline" className="w-full mb-2" onClick={() => showProjectDetails(project)}>
-                More Info
+                {t.moreInfo}
               </Button>
               <div className="flex justify-between">
                 <Button variant="outline" onClick={() => window.open(project.github, '_blank')}>
@@ -255,7 +313,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
   )
 }
 
-function Experience({ setActiveSection }: { setActiveSection: (section: string) => void }) {
+function Experience({ setActiveSection, t }: { setActiveSection: (section: string) => void, t: any }) {
   const experiences = [
     {
       title: "Senior Developer",
@@ -264,7 +322,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
       description: "Led a team of developers in creating innovative web solutions, focusing on scalable architectures and performance optimization.",
       details: [
         "Spearheaded the development of a high-traffic e-commerce platform, resulting in a 40% increase in conversion rates",
-        "Implemented CI/CD pipelines, reducing deployment time by 60% and improving overall team productivity",
+        "Implemented CI/CD pipelines, reducing deployment time by  60% and improving overall team productivity",
         "Mentored junior developers, conducting code reviews and organizing knowledge-sharing sessions",
         "Introduced microservices architecture, enhancing system scalability and maintainability"
       ]
@@ -296,7 +354,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   ]
 
   const showExperienceDetails = (exp) => {
-    toast.dismiss() // Cierra cualquier alerta existente
+    toast.dismiss() // Close any existing toast
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
@@ -322,7 +380,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
             onClick={() => toast.dismiss(t.id)}
             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Close
+            {t.close}
           </button>
         </div>
       </div>
@@ -330,7 +388,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   }
 
   return (
-    <Section id="experience" title="My Experience" setActiveSection={setActiveSection}>
+    <Section id="experience" title={t.myExperience} setActiveSection={setActiveSection}>
       <div className="space-y-8">
         {experiences.map((exp, index) => (
           <div key={index} className="flex">
@@ -344,7 +402,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
               <p className="text-muted-foreground">{exp.period}</p>
               <p className="mt-2">{exp.description}</p>
               <Button variant="link" className="p-0 h-auto font-normal text-muted-foreground hover:text-primary" onClick={() => showExperienceDetails(exp)}>
-                View Details
+                {t.viewDetails}
               </Button>
             </div>
           </div>
@@ -354,7 +412,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   )
 }
 
-function Education({ setActiveSection }: { setActiveSection: (section: string) => void }) {
+function Education({ setActiveSection, t }: { setActiveSection: (section: string) => void, t: any }) {
   const education = [
     {
       degree: "Master of Science in Computer Science",
@@ -378,10 +436,10 @@ function Education({ setActiveSection }: { setActiveSection: (section: string) =
   ]
 
   return (
-    <Section id="education" title="Education and Courses" setActiveSection={setActiveSection}>
+    <Section id="education" title={t.educationAndCourses} setActiveSection={setActiveSection}>
       <div className="space-y-8">
         <div>
-          <h3 className="text-2xl font-semibold mb-4">Formal Education</h3>
+          <h3 className="text-2xl font-semibold mb-4">{t.formalEducation}</h3>
           {education.map((edu, index) => (
             <Card key={index} className="mb-4 overflow-hidden hover:shadow-md transition-shadow">
               <CardContent className="p-4">
@@ -394,7 +452,7 @@ function Education({ setActiveSection }: { setActiveSection: (section: string) =
           ))}
         </div>
         <div>
-          <h3 className="text-2xl font-semibold mb-4">Additional Courses</h3>
+          <h3 className="text-2xl font-semibold mb-4">{t.additionalCourses}</h3>
           <ul className="space-y-2">
             {courses.map((course, index) => (
               <li key={index} className="flex items-center">

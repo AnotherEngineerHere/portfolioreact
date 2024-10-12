@@ -8,8 +8,14 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Download, ChevronRight, Code, Linkedin, Mail, ExternalLink, Sun, Moon } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
-// Función para limitar las alertas a una a la vez
 const useToastLimit = (limit: number) => {
   const { toasts } = useToasterStore()
   useEffect(() => {
@@ -22,20 +28,60 @@ const useToastLimit = (limit: number) => {
       })
   }, [toasts, limit])
 }
+const translations = {
+  en: {
+    about: "About",
+    projects: "Projects",
+    experience: "Experience",
+    education: "Education",
+    downloadCV: "Download CV",
+    aboutMe: "About Me",
+    myProjects: "My Projects",
+    myExperience: "My Experience",
+    educationAndCourses: "Education and Courses",
+    moreInfo: "More Info",
+    close: "Close",
+    viewDetails: "View Details",
+    formalEducation: "Formal Education",
+    additionalCourses: "Additional Courses",
+  },
+  es: {
+    about: "Sobre mí",
+    projects: "Proyectos",
+    experience: "Experiencia",
+    education: "Educación",
+    downloadCV: "Descargar CV",
+    aboutMe: "Sobre mí",
+    myProjects: "Mis Proyectos",
+    myExperience: "Experiencia",
+    educationAndCourses: "Educación y Cursos",
+    moreInfo: "Más Información",
+    close: "Cerrar",
+    viewDetails: "Ver Detalles",
+    formalEducation: "Educación Formal",
+    additionalCourses: "Cursos Adicionales",
+  }
+}
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('about')
   const { theme, setTheme } = useTheme()
-  useToastLimit(1) // Limita las alertas a una a la vez
+  const [language, setLanguage] = useState('en')
+  useToastLimit(1)
+
+  const t = translations[language]
 
   const handleDownloadCV = () => {
-    // Replace this URL with the actual URL of your CV PDF
-    const cvUrl = '/path-to-your-cv.pdf'
+    const cvUrl = '/ResumeAndresOrozcoDeveloper-1.pdf'
     window.open(cvUrl, '_blank')
   }
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'es' : 'en')
   }
 
   return (
@@ -45,34 +91,37 @@ export default function Portfolio() {
         <header className="flex justify-between items-center mb-12">
           <h1 className="text-4xl font-bold">Juan Andres Orozco Nuñez</h1>
           <div className="flex items-center space-x-4">
-            {/* <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button> */}
-            <a href="mailto:tuemail@ejemplo.com">
-              <Button variant="ghost" size="icon">
-                <Mail className="h-5 w-5" />
-              </Button>
-            </a>
-            <a href="https://www.linkedin.com/in/tu-perfil" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon">
-                <Linkedin className="h-5 w-5" />
-              </Button>
-            </a>
-            <a href="https://github.com/tu-usuario" target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon">
-                <Code className="h-5 w-5" />
-              </Button>
-            </a>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{language === 'en' ? 'EN' : 'ES'}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('es')}>Español</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant="ghost" size="icon" onClick={() => window.open("https://github.com/AnotherEngineerHere", "_blank")}>
+              <Code className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => window.open("https://www.linkedin.com/in/andres-orozco-nunez/", "_blank")}>
+              <Linkedin className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon" onClick={() => window.location.href = "mailto:juanxxi2015@gmail.com"}>
+              <Mail className="h-5 w-5" />
+            </Button>
 
             <Button onClick={handleDownloadCV} variant="outline">
-              <Download className="mr-2 h-4 w-4" /> Download CV
+              <Download className="mr-2 h-4 w-4" /> {t.downloadCV}
             </Button>
           </div>
         </header>
 
         <nav className="mb-8">
           <ul className="flex justify-center space-x-4">
-            {['about', 'experience', 'projects', 'education'].map((section) => (
+            {['about', 'projects', 'experience', 'education'].map((section) => (
               <li key={section}>
                 <Button
                   variant={activeSection === section ? "default" : "ghost"}
@@ -81,7 +130,7 @@ export default function Portfolio() {
                     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' })
                   }}
                 >
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
+                  {t[section]}
                 </Button>
               </li>
             ))}
@@ -89,10 +138,10 @@ export default function Portfolio() {
         </nav>
 
         <main className="space-y-16">
-          <AboutMe setActiveSection={setActiveSection} />
-          <Experience setActiveSection={setActiveSection} />
-          <Projects setActiveSection={setActiveSection} />
-          <Education setActiveSection={setActiveSection} />
+          <AboutMe setActiveSection={setActiveSection} language={language} />
+          <Projects setActiveSection={setActiveSection} language={language} />
+          <Experience setActiveSection={setActiveSection} language={language} />
+          <Education setActiveSection={setActiveSection} language={language} />
         </main>
       </div>
     </div>
@@ -122,62 +171,125 @@ function Section({ id, title, children, setActiveSection }: { id: string; title:
   )
 }
 
-function AboutMe({ setActiveSection }: { setActiveSection: (section: string) => void }) {
+function AboutMe({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+  const t = translations[language]
+  const content = {
+    en: {
+      description1: "Hello! I'm Juan Andrés Orozco Núñez, a Senior Developer with expertise in backend development using Java, Spring Boot, and AWS. I focus on building scalable and robust microservices that optimize application performance.",
+      description2: "With a strong foundation in software architecture and cloud services, I strive to create efficient solutions for complex problems. I'm committed to best practices, always eager to learn new technologies, and stay up-to-date with the latest industry trends."
+    },
+    es: {
+      description1: "¡Hola! Soy Juan Andrés Orozco Núñez, Senior Developer con experiencia en desarrollo backend utilizando Java, Spring Boot y AWS. Me enfoco en construir microservicios escalables y robustos que optimizan el rendimiento de las aplicaciones.",
+      description2: "Con una sólida base en arquitectura de software y servicios en la nube, me esfuerzo por crear soluciones eficientes para problemas complejos. Estoy comprometido con las buenas prácticas, siempre dispuesto a aprender nuevas tecnologías y mantenerme actualizado con las últimas tendencias de la industria."
+    }
+  };
+
+
   return (
-    <Section id="about" title="About Me" setActiveSection={setActiveSection}>
+    <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
-          src="/placeholder.svg?height=200&width=200"
-          alt="Juan Andrés Orozco Núñez"
+          src="/profile.jpeg"
+          alt="John Doe"
           width={200}
           height={200}
           className="rounded-full shadow-md"
         />
         <div className="flex-1 space-y-4">
-          <p className="text-lg">
-            Hello! I'm Juan Andrés Orozco Núñez, a passionate software developer with expertise in backend technologies like .NET, Spring Boot, and Java. I enjoy creating robust and scalable solutions.
-          </p>
-          <p className="text-lg">
-            I have experience in developing microservices and applications that optimize performance and implement strong architectural practices. I am committed to continuous learning and improvement in software development.
-          </p>
+          <p className="text-lg">{content[language].description1}</p>
+          <p className="text-lg">{content[language].description2}</p>
           <div className="flex flex-wrap gap-2">
-            {['Java', 'Spring Boot', 'Microservices', 'Docker', 'AWS', '.NET'].map((skill) => (
+            {['Java', 'Spring Boot', 'AWS', 'Docker', 'Kubernetes', 'Kafka', 'WebFlux', 'Microservices', 'Jenkins', 'Azure', 'GCP'].map((skill) => (
               <span key={skill} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
                 {skill}
               </span>
             ))}
           </div>
+
         </div>
       </div>
     </Section>
   )
 }
 
-function Projects({ setActiveSection }: { setActiveSection: (section: string) => void }) {
-  const projects = [
-    {
-      title: "URL Shortener",
-      description: "A service for shortening long URLs into more manageable links, built with Java and Spring Boot.",
-      tags: ['Java', 'Spring Boot', 'Docker'],
-      github: "https://github.com/AnotherEngineerHere/URLShortener",
-      details: "This project allows users to shorten URLs and track click metrics. Built with Java and Spring Boot, it leverages Docker for deployment."
-    },
-    {
-      title: "Portfolio",
-      description: "A responsive online store built with React and Node.js, featuring real-time inventory updates and secure payment processing.",
-      tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      github: "https://github.com/johndoe/ecommerce-project",
-      demo: "",
-      details: "My personal portfolio website, built using Next.js and styled with TailwindCSS."
-    }
-  ]
-  const showProjectDetails = (project: { title: string; description: string; tags: string[]; github: string; details: string; demo?: undefined } | { title: string; description: string; tags: string[]; github: string; demo: string; details: string }) => {
-    toast.dismiss() // Cierra cualquier alerta existente
+function Projects({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+  const t = translations[language]
+  const projects = {
+    en: [
+      {
+        title: "URL Shortener",
+        description: "A simple and efficient URL shortening service that allows users to shorten long URLs and track clicks.",
+        image: "/url-shortener.jpg",
+        tags: ['Java', 'Spring Boot', 'Docker'],
+        github: "https://github.com/AnotherEngineerHere/url-shortener",
+        demo: "https://github.com/AnotherEngineerHere/url-shortener",
+        details: "This URL shortener provides users with a straightforward interface to create shortened links. Built with Java and Spring Boot, the service is containerized using Docker for easy deployment. Features include link tracking, user authentication, and a simple dashboard to manage links."
+      },
+      {
+        title: "OTP Service",
+        description: "A secure service for generating and validating one-time passwords (OTP) for user authentication.",
+        image: "/otp-service.jpg",
+        tags: ['Java', 'Spring Boot', 'WebFlux'],
+        github: "https://github.com/AnotherEngineerHere/otp-service",
+        demo: "https://github.com/AnotherEngineerHere/otp-service",
+        details: "The OTP Service generates and validates one-time passwords for secure user authentication. Implemented with Spring Boot and WebFlux, it ensures real-time processing and scalability. The service includes features like OTP generation, validation, and expiration handling."
+      },
+      {
+        title: "Portfolio Website",
+        description: "This single-page portfolio built with Next.js showcases my projects and skills with a modern, responsive design.",
+        image: "/portfolio-website.jpg",
+        tags: ['Next.js', 'TailwindCSS'],
+        github: "https://github.com/AnotherEngineerHere/portfolio",
+        demo: "https://your-portfolio-demo.com",
+        details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
+      }
+    ],
+    es: [
+      {
+        title: "Acortador de URLs",
+        description: "Un servicio de acortamiento de URLs simple y eficiente que permite a los usuarios acortar URLs largas y rastrear clics.",
+        image: "/url-shortener.jpg",
+        tags: ['Java', 'Spring Boot', 'Docker'],
+        github: "https://github.com/AnotherEngineerHere/url-shortener",
+        demo: "https://url-shortener-demo.com",
+        details: "Este acortador de URLs proporciona a los usuarios una interfaz sencilla para crear enlaces acortados. Construido con Java y Spring Boot, el servicio está containerizado usando Docker para facilitar el despliegue. Las características incluyen rastreo de enlaces, autenticación de usuarios y un panel de control simple para gestionar enlaces."
+      },
+      {
+        title: "Servicio de OTP",
+        description: "Un servicio seguro para generar y validar contraseñas de un solo uso (OTP) para la autenticación de usuarios.",
+        image: "/otp-service.jpg",
+        tags: ['Java', 'Spring Boot', 'WebFlux'],
+        github: "https://github.com/AnotherEngineerHere/otp-service",
+        demo: "https://otp-service-demo.com",
+        details: "El Servicio de OTP genera y valida contraseñas de un solo uso para la autenticación segura de usuarios. Implementado con Spring Boot y WebFlux, asegura procesamiento en tiempo real y escalabilidad. El servicio incluye características como generación de OTP, validación y manejo de expiración."
+      },
+      {
+        title: "Sitio Web de Portafolio",
+        description: "Este portafolio de una sola página construido con Next.js, mostrando mis proyectos y habilidades con un diseño moderno y responsivo.",
+        image: "/portfolio-website.jpg",
+        tags: ['Next.js', 'TailwindCSS'],
+        github: "https://github.com/AnotherEngineerHere/portfolio",
+        demo: "https://your-portfolio-demo.com",
+        details: "Mi sitio web de portafolio personal, construido usando Next.js y estilizado con TailwindCSS. Cuenta con un diseño responsivo, animaciones de desplazamiento suave impulsadas y carga de contenido dinámico. El sitio muestra mis proyectos, habilidades y experiencia profesional de una manera interactiva y visualmente atractiva. También incluye un formulario de contacto y se integra con un CMS sin cabeza para facilitar las actualizaciones de contenido."
+      }
+    ]
+  };
+
+
+  const showProjectDetails = (project: { image: any; title: any; description?: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactPortal | Promise<AwaitedReactNode> | Iterable<ReactNode> | null | undefined; tags?: any[]; github?: string | URL | undefined; demo?: string | URL | undefined; details?: any }) => {
+    toast.dismiss()
     toast.custom((t) => (
-      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black  ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
             <div className="flex-shrink-0 pt-0.5">
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={50}
+                height={50}
+                className="h-10 w-10 rounded-full"
+              />
             </div>
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -194,7 +306,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
             onClick={() => toast.dismiss(t.id)}
             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Close
+            {translations[language].close}
           </button>
         </div>
       </div>
@@ -202,10 +314,17 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
   }
 
   return (
-    <Section id="projects" title="My Projects" setActiveSection={setActiveSection}>
+    <Section id="projects" title={t.myProjects} setActiveSection={setActiveSection}>
       <div className="grid md:grid-cols-2 gap-8">
-        {projects.map((project, index) => (
+        {projects[language].map((project: { image: string | StaticImport; title: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; tags: any[]; github: string | URL | undefined; demo: string | URL | undefined }, index: Key | null | undefined) => (
           <Card key={index} className="overflow-hidden hover:shadow-md transition-shadow">
+            <Image
+              src={project.image}
+              alt={project.title}
+              width={300}
+              height={150}
+              className="w-full object-cover h-40"
+            />
             <CardContent className="p-4">
               <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
               <p className="text-muted-foreground mb-4">{project.description}</p>
@@ -217,7 +336,7 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
                 ))}
               </div>
               <Button variant="outline" className="w-full mb-2" onClick={() => showProjectDetails(project)}>
-                More Info
+                {t.moreInfo}
               </Button>
               <div className="flex justify-between">
                 <Button variant="outline" onClick={() => window.open(project.github, '_blank')}>
@@ -235,49 +354,64 @@ function Projects({ setActiveSection }: { setActiveSection: (section: string) =>
   )
 }
 
-function Experience({ setActiveSection }: { setActiveSection: (section: string) => void }) {
-  const experiences = [
-    {
-      title: "Senior Developer",
-      company: "Codesa",
-      period: "July 2023 - Present",
-      description: "Led a team of developers in creating innovative web solutions, focusing on scalable architectures and performance optimization.",
-      details: [
-        "Spearheaded the development of a high-traffic e-commerce platform, resulting in a 40% increase in conversion rates.",
-        "Implemented CI/CD pipelines, reducing deployment time by 60% and improving overall team productivity.",
-        "Mentored junior developers, conducting code reviews and organizing knowledge-sharing sessions.",
-        "Introduced microservices architecture, enhancing system scalability and maintainability."
-      ]
-    },
-    {
-      title: "Software Developer",
-      company: "EyS Ingeniería de Colombia",
-      period: "November 2021 - July 2023",
-      description: "Contributed to the development of various client projects using Java, Spring Boot, and microservices architecture.",
-      details: [
-        "Developed and maintained backend services for client-facing applications, improving reliability and performance.",
-        "Collaborated with cross-functional teams to define project requirements and deliver solutions on time.",
-        "Participated in code reviews and agile development processes, enhancing team collaboration.",
-        "Utilized AWS for deploying and managing cloud infrastructure, ensuring scalability and security."
-      ]
-    },
-    {
-      title: "Freelancer",
-      company: "Self-Employed",
-      period: "2020 - Present",
-      description: "Created virtual stores and optimized SEO for various clients using WordPress, enhancing their online presence.",
-      details: [
-        "Designed and developed multiple e-commerce websites using WordPress, leading to improved user experience.",
-        "Implemented SEO strategies that increased organic traffic by over 50% for several client sites.",
-        "Provided ongoing support and maintenance for client websites, ensuring optimal performance and security.",
-        "Conducted training sessions for clients on how to manage their websites effectively."
-      ]
-    }
-  ];
+function Experience({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+  const t = translations[language]
+  const experiences = {
+    en: [
+      {
+        title: "Backend Developer",
+        company: "Codesa",
+        period: "July 2023 - Present",
+        description: "Optimized and refactored Spring Boot microservices, resulting in improved response time and a more scalable architecture.",
+        details: [
+          "Implemented automated testing procedures, increasing code reliability.",
+          "Spearheaded the implementation of security best practices, ensuring compliance with industry standards.",
+          "Collaborated with cross-functional teams to integrate third-party APIs, enhancing system functionality and user experience.",
+          "Stack: Java 11, Java 8, Spring Boot, MySQL, Oracle SQL, Docker, Python, Linux"
+        ]
+      },
+      {
+        title: "Software Developer",
+        company: "EyS Ingeniería de Colombia",
+        period: "Nov 2021 - July 2023",
+        description: "Developed and designed dashboards for tracking key metrics, improving data visualization and decision-making.",
+        details: [
+          "Applied microservices architecture to enhance the scalability and maintainability of the internal mobile application.",
+          "Introduced and championed coding standards and code review processes, resulting in a reduction in bugs and improved code maintainability.",
+          "Stack: Java 11, Java 8, Spring Boot, MySQL, Docker, Python, Mobile"
+        ]
+      }
+    ],
+    es: [
+      {
+        title: "Desarrollador Backend",
+        company: "Codesa",
+        period: "Julio 2023 - Presente",
+        description: "Optimizé y refactoricé microservicios en Spring Boot, resultando en una mejora en el tiempo de respuesta y una arquitectura más escalable.",
+        details: [
+          "Implementé procedimientos de pruebas automatizadas, aumentando la fiabilidad del código.",
+          "Encabecé la implementación de mejores prácticas de seguridad, asegurando el cumplimiento de los estándares de la industria.",
+          "Colaboré con equipos multifuncionales para integrar APIs de terceros, mejorando la funcionalidad del sistema y la experiencia del usuario.",
+          "Stack: Java 11, Java 8, Spring Boot, MySQL, Oracle SQL, Docker, Python, Linux"
+        ]
+      },
+      {
+        title: "Desarrollador de Software",
+        company: "EyS Ingeniería de Colombia",
+        period: "Nov 2021 - Julio 2023",
+        description: "Desarrollé y diseñé tableros para el seguimiento de métricas clave, mejorando la visualización de datos y la toma de decisiones.",
+        details: [
+          "Apliqué arquitectura de microservicios para mejorar la escalabilidad y mantenibilidad de la aplicación móvil interna.",
+          "Introduje y defendí estándares de codificación y procesos de revisión de código, resultando en una reducción de errores y mejor mantenibilidad del código.",
+          "Stack: Java 11, Java 8, Spring Boot, MySQL, Docker, Python, Móvil"
+        ]
+      }
+    ]
+  }
 
 
-  const showExperienceDetails = (exp: { title: any; company: any; period: any; description?: string; details: any }) => {
-    toast.dismiss() // Cierra cualquier alerta existente
+  const showExperienceDetails = (exp: { title: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; company: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; period: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; details: any[] }) => {
+    toast.dismiss()
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
@@ -291,7 +425,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
                 {exp.period}
               </p>
               <ul className="mt-2 text-sm text-gray-500 dark:text-gray-400 list-disc list-inside">
-                {exp.details.map((detail: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
+                {exp.details.map((detail, index) => (
                   <li key={index}>{detail}</li>
                 ))}
               </ul>
@@ -303,7 +437,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
             onClick={() => toast.dismiss(t.id)}
             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Close
+            {translations[language].close}
           </button>
         </div>
       </div>
@@ -311,13 +445,13 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   }
 
   return (
-    <Section id="experience" title="Experience" setActiveSection={setActiveSection}>
+    <Section id="experience" title={t.myExperience} setActiveSection={setActiveSection}>
       <div className="space-y-8">
-        {experiences.map((exp, index) => (
+        {experiences[language].map((exp: { title: any; company: any; period: any; description?: any; details?: any[] }, index: Key | null | undefined) => (
           <div key={index} className="flex">
             <div className="flex flex-col items-center mr-4">
               <div className="w-3 h-3 bg-primary rounded-full" />
-              {index !== experiences.length - 1 && <div className="w-0.5 h-full bg-primary/30" />}
+              {index !== experiences[language].length - 1 && <div className="w-0.5 h-full bg-primary/30" />}
             </div>
             <div>
               <h3 className="text-xl font-semibold">{exp.title}</h3>
@@ -325,7 +459,7 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
               <p className="text-muted-foreground">{exp.period}</p>
               <p className="mt-2">{exp.description}</p>
               <Button variant="link" className="p-0 h-auto font-normal text-muted-foreground hover:text-primary" onClick={() => showExperienceDetails(exp)}>
-                View Details
+                {t.viewDetails}
               </Button>
             </div>
           </div>
@@ -335,41 +469,76 @@ function Experience({ setActiveSection }: { setActiveSection: (section: string) 
   )
 }
 
-function Education({ setActiveSection }: { setActiveSection: (section: string) => void }) {
-  const education = [
-    {
-      degree: "Bachelor Degree in Software Engineering",
-      school: "UNAD",
-      year: "2024",
-      description: "In Progress"
-    },
-    {
-      degree: "Asociate Degree Web Development and Multimedia",
-      school: "SENA",
-      year: "2023",
-      description: "In Course"
-    },
-    {
-      degree: "Bachelor Degree in Software Engineering",
-      school: "ICESI",
-      year: "2017-2023",
-      description: "Retired"
-    }
-  ]
+function Education({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+  const t = translations[language]
+  const education = {
+    en: [
+      {
+        degree: "Associate Degree in Multimedia and Web Development",
+        school: "SENA",
+        year: "In progress",
+        description: "Developed skills in multimedia production and web development."
+      },
+      {
+        degree: "Engineering Degree in Software Engineering",
+        school: "UNAD",
+        year: "In progress",
+        description: "Focused on software engineering principles and practices."
+      },
+      {
+        degree: "Engineering Degree in Software Engineering",
+        school: "Universidad Icesi",
+        year: "Not completed",
+        description: "Studied software engineering with a focus on advanced programming and project management."
+      }
+    ],
+    es: [
+      {
+        degree: "Tecnólogo en Desarrollo Multimedia y Web",
+        school: "SENA",
+        year: "En Curso",
+        description: "Desarrollé habilidades en producción multimedia y desarrollo web."
+      },
+      {
+        degree: "Ingeniería en Software",
+        school: "UNAD",
+        year: "En curso",
+        description: "Enfocado en principios y prácticas de ingeniería de software."
+      },
+      {
+        degree: "Ingeniería en Software",
+        school: "Universidad Icesi",
+        year: "No completada",
+        description: "Estudié ingeniería de software con un enfoque en programación avanzada y gestión de proyectos."
+      }
+    ]
+  };
 
-  const courses = [
-    "Advanced React and Redux: Building Scalable Web Apps",
-    "Node.js: The Complete Guide to Building RESTful APIs",
-    "Machine Learning with Python: From Linear Models to Deep Learning",
-    "AWS Certified Developer - Associate"
-  ]
+
+  const courses = {
+    en: [
+      "Introduction to Terminal and Command Line by Platzi",
+      "Fundamentals of Software Engineering by Platzi",
+      "DevOps on AWS and Project Management Course",
+      "AWS Cloud Foundations",
+      "EF Certificate by EF"
+    ],
+    es: [
+      "Introducción a la Terminal y Línea de Comandos de Platzi",
+      "Fundamentos de Ingeniería de Software de Platzi",
+      "Curso de DevOps en AWS y Gestión de Proyectos",
+      "Fundamentos de la Nube de AWS",
+      "Certificado EF de EF"
+    ]
+  }
+
 
   return (
-    <Section id="education" title="Education and Courses" setActiveSection={setActiveSection}>
+    <Section id="education" title={t.educationAndCourses} setActiveSection={setActiveSection}>
       <div className="space-y-8">
         <div>
-          <h3 className="text-2xl font-semibold mb-4">Formal Education</h3>
-          {education.map((edu, index) => (
+          <h3 className="text-2xl font-semibold mb-4">{t.formalEducation}</h3>
+          {education[language].map((edu: { degree: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; school: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; year: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, index: Key | null | undefined) => (
             <Card key={index} className="mb-4 overflow-hidden hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <h4 className="text-xl font-semibold">{edu.degree}</h4>
@@ -381,9 +550,9 @@ function Education({ setActiveSection }: { setActiveSection: (section: string) =
           ))}
         </div>
         <div>
-          <h3 className="text-2xl font-semibold mb-4">Additional Courses</h3>
+          <h3 className="text-2xl font-semibold mb-4">{t.additionalCourses}</h3>
           <ul className="space-y-2">
-            {courses.map((course, index) => (
+            {courses[language].map((course: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
               <li key={index} className="flex items-center">
                 <ChevronRight className="h-4 w-4 mr-2 text-primary" />
                 <span>{course}</span>
