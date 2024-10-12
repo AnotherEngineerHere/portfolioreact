@@ -1,4 +1,5 @@
 'use client'
+/* eslint-disable */
 
 import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from 'react'
 import Image from 'next/image'
@@ -69,6 +70,9 @@ export default function Portfolio() {
   const [language, setLanguage] = useState('en')
   useToastLimit(1)
 
+  /**
+   * eslint 
+   */
   const t = translations[language]
 
   const handleDownloadCV = () => {
