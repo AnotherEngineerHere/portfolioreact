@@ -1,6 +1,5 @@
-'use client'
 /* eslint-disable */
-
+'use client'
 import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
