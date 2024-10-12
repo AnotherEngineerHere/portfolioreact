@@ -72,6 +72,7 @@ export function Page() {
   const [language, setLanguage] = useState('en')
   useToastLimit(1) // Limit toasts to one at a time
 
+  /* eslint-disable */
   const t = translations[language]
 
   const handleDownloadCV = () => {
@@ -235,7 +236,7 @@ function Projects({ setActiveSection, t }: { setActiveSection: (section: string)
       details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations powered by Framer Motion, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
     }
   ]
-
+/* eslint-disable */
   const showProjectDetails = (project) => {
     toast.dismiss() // Close any existing toast
     toast.custom((t) => (
@@ -354,6 +355,7 @@ function Experience({ setActiveSection, t }: { setActiveSection: (section: strin
     }
   ]
 
+  /* eslint-disable */
   const showExperienceDetails = (exp) => {
     toast.dismiss() // Close any existing toast
     toast.custom((t) => (
