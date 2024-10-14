@@ -234,8 +234,8 @@ function AboutMe({ setActiveSection, language }: AboutMeProps): JSX.Element {
     <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
-          src="/john-doe-profile.jpg"
-          alt="John Doe"
+          src="/profile.jpg"
+          alt="Juan Andres Orozco Nuñez"
           width={200}
           height={200}
           className="rounded-full shadow-md"
