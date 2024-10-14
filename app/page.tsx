@@ -270,8 +270,8 @@ function Projects({ setActiveSection, language }: ProjectsProps): JSX.Element {
         description: "A simple and efficient URL shortening service that allows users to shorten long URLs and track clicks.",
         image: "/url-shortener.jpg",
         tags: ['Java', 'Spring Boot', 'Docker'],
-        github: "https://github.com/AnotherEngineerHere/url-shortener",
-        demo: "https://github.com/AnotherEngineerHere/url-shortener",
+        github: "https://github.com/AnotherEngineerHere/UrlShortener",
+        demo: "https://github.com/AnotherEngineerHere/UrlShortener",
         details: "This URL shortener provides users with a straightforward interface to create shortened links. Built with Java and Spring Boot, the service is containerized using Docker for easy deployment. Features include link tracking, user authentication, and a simple dashboard to manage links."
       },
       {
@@ -279,8 +279,8 @@ function Projects({ setActiveSection, language }: ProjectsProps): JSX.Element {
         description: "A secure service for generating and validating one-time passwords (OTP) for user authentication.",
         image: "/otp-service.jpg",
         tags: ['Java', 'Spring Boot', 'WebFlux'],
-        github: "https://github.com/AnotherEngineerHere/otp-service",
-        demo: "https://github.com/AnotherEngineerHere/otp-service",
+        github: "https://github.com/AnotherEngineerHere/OtpService",
+        demo: "https://github.com/AnotherEngineerHere/OtpService",
         details: "The OTP Service generates and validates one-time passwords for secure user authentication. Implemented with Spring Boot and WebFlux, it ensures real-time processing and scalability. The service includes features like OTP generation, validation, and expiration handling."
       },
       {
@@ -288,8 +288,8 @@ function Projects({ setActiveSection, language }: ProjectsProps): JSX.Element {
         description: "This single-page portfolio built with Next.js showcases my projects and skills with a modern, responsive design.",
         image: "/portfolio-website.jpg",
         tags: ['Next.js', 'TailwindCSS'],
-        github: "https://github.com/AnotherEngineerHere/portfolio",
-        demo: "https://your-portfolio-demo.com",
+        github: "https://github.com/AnotherEngineerHere/portfolioreact",
+        demo: "https://portfolioreact-git-main-anotherengineerheres-projects.vercel.app/",
         details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
       }
     ],
