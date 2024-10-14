@@ -1,6 +1,6 @@
-/* eslint-disable */
 'use client'
-import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from 'react'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { useTheme } from 'next-themes'
@@ -14,9 +14,43 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
-const useToastLimit = (limit: number) => {
+type Language = 'en' | 'es'
+
+interface Translations {
+  [key: string]: {
+    [key: string]: string
+  }
+}
+
+interface Project {
+  title: string
+  description: string
+  image: string
+  tags: string[]
+  github: string
+  demo: string
+  details: string
+}
+
+interface Experience {
+  title: string
+  company: string
+  period: string
+  description: string
+  details: string[]
+}
+
+interface Education {
+  degree: string
+  school: string
+  year: string
+  description: string
+}
+
+const MAX_TOASTS = 1
+
+const useToastLimit = (limit: number): void => {
   const { toasts } = useToasterStore()
   useEffect(() => {
     toasts
@@ -28,7 +62,8 @@ const useToastLimit = (limit: number) => {
       })
   }, [toasts, limit])
 }
-const translations = {
+
+const translations: Translations = {
   en: {
     about: "About",
     projects: "Projects",
@@ -53,7 +88,7 @@ const translations = {
     downloadCV: "Descargar CV",
     aboutMe: "Sobre mí",
     myProjects: "Mis Proyectos",
-    myExperience: "Experiencia",
+    myExperience: "Mi Experiencia",
     educationAndCourses: "Educación y Cursos",
     moreInfo: "Más Información",
     close: "Cerrar",
@@ -63,28 +98,25 @@ const translations = {
   }
 }
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState('about')
+export default function Portfolio(): JSX.Element {
+  const [activeSection, setActiveSection] = useState<string>('about')
   const { theme, setTheme } = useTheme()
-  const [language, setLanguage] = useState('en')
-  useToastLimit(1)
+  const [language, setLanguage] = useState<Language>('en')
+  useToastLimit(MAX_TOASTS)
 
-  /**
-   * eslint 
-   */
   const t = translations[language]
 
-  const handleDownloadCV = () => {
-    const cvUrl = '/ResumeAndresOrozcoDeveloper-1.pdf'
+  const handleDownloadCV = (): void => {
+    const cvUrl = '/path-to-your-cv.pdf'
     window.open(cvUrl, '_blank')
   }
 
-  const toggleTheme = () => {
+  const toggleTheme = (): void => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'es' : 'en')
+  const toggleLanguage = (): void => {
+    setLanguage(prevLang => prevLang === 'en' ? 'es' : 'en')
   }
 
   return (
@@ -106,16 +138,15 @@ export default function Portfolio() {
                 <DropdownMenuItem onClick={() => setLanguage('es')}>Español</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="ghost" size="icon" onClick={() => window.open("https://github.com/AnotherEngineerHere", "_blank")}>
+            <Button variant="ghost" size="icon">
               <Code className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => window.open("https://www.linkedin.com/in/andres-orozco-nunez/", "_blank")}>
+            <Button variant="ghost" size="icon">
               <Linkedin className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => window.location.href = "mailto:juanxxi2015@gmail.com"}>
+            <Button variant="ghost" size="icon">
               <Mail className="h-5 w-5" />
             </Button>
-
             <Button onClick={handleDownloadCV} variant="outline">
               <Download className="mr-2 h-4 w-4" /> {t.downloadCV}
             </Button>
@@ -151,7 +182,14 @@ export default function Portfolio() {
   )
 }
 
-function Section({ id, title, children, setActiveSection }: { id: string; title: string; children: React.ReactNode; setActiveSection: (section: string) => void }) {
+interface SectionProps {
+  id: string
+  title: string
+  children: React.ReactNode
+  setActiveSection: (section: string) => void
+}
+
+function Section({ id, title, children, setActiveSection }: SectionProps): JSX.Element {
   const { ref, inView } = useInView({
     threshold: 0.5,
   })
@@ -174,7 +212,12 @@ function Section({ id, title, children, setActiveSection }: { id: string; title:
   )
 }
 
-function AboutMe({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+interface AboutMeProps {
+  setActiveSection: (section: string) => void
+  language: Language
+}
+
+function AboutMe({ setActiveSection, language }: AboutMeProps): JSX.Element {
   const t = translations[language]
   const content = {
     en: {
@@ -185,14 +228,13 @@ function AboutMe({ setActiveSection, language }: { setActiveSection: (section: s
       description1: "¡Hola! Soy Juan Andrés Orozco Núñez, Senior Developer con experiencia en desarrollo backend utilizando Java, Spring Boot y AWS. Me enfoco en construir microservicios escalables y robustos que optimizan el rendimiento de las aplicaciones.",
       description2: "Con una sólida base en arquitectura de software y servicios en la nube, me esfuerzo por crear soluciones eficientes para problemas complejos. Estoy comprometido con las buenas prácticas, siempre dispuesto a aprender nuevas tecnologías y mantenerme actualizado con las últimas tendencias de la industria."
     }
-  };
-
+  }
 
   return (
     <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
-          src="/profile.jpeg"
+          src="/profile.jpg"
           alt="John Doe"
           width={200}
           height={200}
@@ -202,20 +244,24 @@ function AboutMe({ setActiveSection, language }: { setActiveSection: (section: s
           <p className="text-lg">{content[language].description1}</p>
           <p className="text-lg">{content[language].description2}</p>
           <div className="flex flex-wrap gap-2">
-            {['Java', 'Spring Boot', 'AWS', 'Docker', 'Kubernetes', 'Kafka', 'WebFlux', 'Microservices', 'Jenkins', 'Azure', 'GCP'].map((skill) => (
+            {['React', 'Next.js', 'Node.js', 'TypeScript', 'TailwindCSS', 'GraphQL'].map((skill) => (
               <span key={skill} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
                 {skill}
               </span>
             ))}
           </div>
-
         </div>
       </div>
     </Section>
   )
 }
 
-function Projects({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+interface ProjectsProps {
+  setActiveSection: (section: string) => void
+  language: Language
+}
+
+function Projects({ setActiveSection, language }: ProjectsProps): JSX.Element {
   const t = translations[language]
   const projects = {
     en: [
@@ -278,11 +324,10 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
     ]
   };
 
-
-  const showProjectDetails = (project: { image: any; title: any; description?: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactPortal | Promise<AwaitedReactNode> | Iterable<ReactNode> | null | undefined; tags?: any[]; github?: string | URL | undefined; demo?: string | URL | undefined; details?: any }) => {
+  const showProjectDetails = (project: Project): void => {
     toast.dismiss()
     toast.custom((t) => (
-      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black  ring-opacity-5`}>
+      <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
             <div className="flex-shrink-0 pt-0.5">
@@ -319,7 +364,7 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
   return (
     <Section id="projects" title={t.myProjects} setActiveSection={setActiveSection}>
       <div className="grid md:grid-cols-2 gap-8">
-        {projects[language].map((project: { image: string | StaticImport; title: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; tags: any[]; github: string | URL | undefined; demo: string | URL | undefined }, index: Key | null | undefined) => (
+        {projects[language].map((project, index) => (
           <Card key={index} className="overflow-hidden hover:shadow-md transition-shadow">
             <Image
               src={project.image}
@@ -357,7 +402,12 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
   )
 }
 
-function Experience({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+interface ExperienceProps {
+  setActiveSection: (section: string) => void
+  language: Language
+}
+
+function Experience({ setActiveSection, language }: ExperienceProps): JSX.Element {
   const t = translations[language]
   const experiences = {
     en: [
@@ -412,14 +462,12 @@ function Experience({ setActiveSection, language }: { setActiveSection: (section
     ]
   }
 
-
-  const showExperienceDetails = (exp: { title: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; company: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; period: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; details: any[] }) => {
+  const showExperienceDetails = (exp: Experience): void => {
     toast.dismiss()
     toast.custom((t) => (
       <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
         <div className="flex-1 w-0 p-4">
           <div className="flex items-start">
-
             <div className="ml-3 flex-1">
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {exp.title} at {exp.company}
@@ -450,7 +498,7 @@ function Experience({ setActiveSection, language }: { setActiveSection: (section
   return (
     <Section id="experience" title={t.myExperience} setActiveSection={setActiveSection}>
       <div className="space-y-8">
-        {experiences[language].map((exp: { title: any; company: any; period: any; description?: any; details?: any[] }, index: Key | null | undefined) => (
+        {experiences[language].map((exp, index) => (
           <div key={index} className="flex">
             <div className="flex flex-col items-center mr-4">
               <div className="w-3 h-3 bg-primary rounded-full" />
@@ -472,9 +520,14 @@ function Experience({ setActiveSection, language }: { setActiveSection: (section
   )
 }
 
-function Education({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
+interface EducationProps {
+  setActiveSection: (section: string) => void
+  language: Language
+}
+
+function Education({ setActiveSection, language }: EducationProps): JSX.Element {
   const t = translations[language]
-  const education = {
+  const education: { [key in Language]: Education[] } = {
     en: [
       {
         degree: "Associate Degree in Multimedia and Web Development",
@@ -515,10 +568,9 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
         description: "Estudié ingeniería de software con un enfoque en programación avanzada y gestión de proyectos."
       }
     ]
-  };
+  }
 
-
-  const courses = {
+  const courses: { [key in Language]: string[] } = {
     en: [
       "Introduction to Terminal and Command Line by Platzi",
       "Fundamentals of Software Engineering by Platzi",
@@ -535,13 +587,12 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
     ]
   }
 
-
   return (
     <Section id="education" title={t.educationAndCourses} setActiveSection={setActiveSection}>
       <div className="space-y-8">
         <div>
           <h3 className="text-2xl font-semibold mb-4">{t.formalEducation}</h3>
-          {education[language].map((edu: { degree: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; school: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; year: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined }, index: Key | null | undefined) => (
+          {education[language].map((edu, index) => (
             <Card key={index} className="mb-4 overflow-hidden hover:shadow-md transition-shadow">
               <CardContent className="p-4">
                 <h4 className="text-xl font-semibold">{edu.degree}</h4>
@@ -555,7 +606,7 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
         <div>
           <h3 className="text-2xl font-semibold mb-4">{t.additionalCourses}</h3>
           <ul className="space-y-2">
-            {courses[language].map((course: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
+            {courses[language].map((course, index) => (
               <li key={index} className="flex items-center">
                 <ChevronRight className="h-4 w-4 mr-2 text-primary" />
                 <span>{course}</span>
