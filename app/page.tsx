@@ -235,7 +235,7 @@ function AboutMe({ setActiveSection, language }: AboutMeProps): JSX.Element {
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         <Image
           src="/profile.jpg"
-          alt="John Doe"
+          alt="Andres Orozco"
           width={200}
           height={200}
           className="rounded-full shadow-md"
