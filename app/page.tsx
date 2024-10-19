@@ -91,9 +91,9 @@ export default function Portfolio() {
     <div className="min-h-screen bg-background text-foreground">
       <Toaster position="top-center" />
       <div className="container mx-auto px-4 py-8">
-        <header className="flex justify-between items-center mb-12">
-          <h1 className="text-4xl font-bold">Juan Andres Orozco Nuñez</h1>
-          <div className="flex items-center space-x-4">
+        <header className="flex flex-col sm:flex-row justify-between items-center mb-12 space-y-4 sm:space-y-0">
+          <h1 className="text-3xl sm:text-4xl font-bold">John Doe</h1>
+          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:space-x-4">
             <Button variant="ghost" size="icon" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </Button>
@@ -115,15 +115,14 @@ export default function Portfolio() {
             <Button variant="ghost" size="icon" onClick={() => window.location.href = "mailto:juanxxi2015@gmail.com"}>
               <Mail className="h-5 w-5" />
             </Button>
-
-            <Button onClick={handleDownloadCV} variant="outline">
+            <Button onClick={handleDownloadCV} variant="outline" className="w-full sm:w-auto">
               <Download className="mr-2 h-4 w-4" /> {t.downloadCV}
             </Button>
           </div>
         </header>
 
-        <nav className="mb-8">
-          <ul className="flex justify-center space-x-4">
+        <nav className="mb-8 overflow-x-auto">
+          <ul className="flex justify-start sm:justify-center space-x-4 min-w-max sm:min-w-0 px-4 sm:px-0">
             {['about', 'projects', 'experience', 'education'].map((section) => (
               <li key={section}>
                 <Button
@@ -178,31 +177,31 @@ function AboutMe({ setActiveSection, language }: { setActiveSection: (section: s
   const t = translations[language]
   const content = {
     en: {
-      description1: "Hello! I'm Juan Andrés Orozco Núñez, a Senior Developer with expertise in backend development using Java, Spring Boot, and AWS. I focus on building scalable and robust microservices that optimize application performance.",
-      description2: "With a strong foundation in software architecture and cloud services, I strive to create efficient solutions for complex problems. I'm committed to best practices, always eager to learn new technologies, and stay up-to-date with the latest industry trends."
+      description1: "Hello! I'm John Doe, a passionate full-stack developer with expertise in React, Next.js, and Node.js. I love creating user-friendly and efficient web applications that solve real-world problems.",
+      description2: "With a strong foundation in front-end development and a keen eye for design, I strive to build intuitive and visually appealing interfaces that provide an excellent user experience. I'm always eager to learn new technologies and stay up-to-date with the latest industry trends."
     },
     es: {
-      description1: "¡Hola! Soy Juan Andrés Orozco Núñez, Senior Developer con experiencia en desarrollo backend utilizando Java, Spring Boot y AWS. Me enfoco en construir microservicios escalables y robustos que optimizan el rendimiento de las aplicaciones.",
-      description2: "Con una sólida base en arquitectura de software y servicios en la nube, me esfuerzo por crear soluciones eficientes para problemas complejos. Estoy comprometido con las buenas prácticas, siempre dispuesto a aprender nuevas tecnologías y mantenerme actualizado con las últimas tendencias de la industria."
+      description1: "¡Hola! Soy John Doe, un desarrollador full-stack apasionado con experiencia en React, Next.js y Node.js. Me encanta crear aplicaciones web eficientes y fáciles de usar que resuelven problemas del mundo real.",
+      description2: "Con una sólida base en desarrollo front-end y un buen ojo para el diseño, me esfuerzo por construir interfaces intuitivas y visualmente atractivas que proporcionen una excelente experiencia de usuario. Siempre estoy ansioso por aprender nuevas tecnologías y mantenerme actualizado con las últimas tendencias de la industria."
     }
   };
 
 
   return (
     <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8">
         <Image
-          src="/profile.jpeg"
+          src="/john-doe-profile.jpg"
           alt="John Doe"
           width={200}
           height={200}
-          className="rounded-full shadow-md"
+          className="rounded-full shadow-md w-40 h-40 sm:w-48 sm:h-48"
         />
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-4 text-center sm:text-left">
           <p className="text-lg">{content[language].description1}</p>
           <p className="text-lg">{content[language].description2}</p>
-          <div className="flex flex-wrap gap-2">
-            {['Java', 'Spring Boot', 'AWS', 'Docker', 'Kubernetes', 'Kafka', 'WebFlux', 'Microservices', 'Jenkins', 'Azure', 'GCP'].map((skill) => (
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+            {['React', 'Next.js', 'Node.js', 'TypeScript', 'TailwindCSS', 'GraphQL'].map((skill) => (
               <span key={skill} className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
                 {skill}
               </span>
@@ -217,66 +216,66 @@ function AboutMe({ setActiveSection, language }: { setActiveSection: (section: s
 
 function Projects({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
   const t = translations[language]
-  const projects = {
+  const projects: { [key in Language]: Project[] } = {
     en: [
       {
-        title: "URL Shortener",
-        description: "A simple and efficient URL shortening service that allows users to shorten long URLs and track clicks.",
-        image: "/url-shortener.jpg",
-        tags: ['Java', 'Spring Boot', 'Docker'],
-        github: "https://github.com/AnotherEngineerHere/url-shortener",
-        demo: "https://github.com/AnotherEngineerHere/url-shortener",
-        details: "This URL shortener provides users with a straightforward interface to create shortened links. Built with Java and Spring Boot, the service is containerized using Docker for easy deployment. Features include link tracking, user authentication, and a simple dashboard to manage links."
+        title: "E-commerce Website",
+        description: "A responsive online store built with React and Node.js, featuring real-time inventory updates and secure payment processing.",
+        image: "/ecommerce-project.jpg",
+        tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+        github: "https://github.com/johndoe/ecommerce-project",
+        demo: "https://ecommerce-project-demo.com",
+        details: "This e-commerce platform offers a seamless shopping experience with features like real-time inventory tracking, secure payments via Stripe, and a responsive design for mobile and desktop users. The project utilizes React for the frontend, Node.js and Express for the backend, and MongoDB for data storage. Key features include user authentication, product search and filtering, shopping cart functionality, and order tracking."
       },
       {
-        title: "OTP Service",
-        description: "A secure service for generating and validating one-time passwords (OTP) for user authentication.",
-        image: "/otp-service.jpg",
-        tags: ['Java', 'Spring Boot', 'WebFlux'],
-        github: "https://github.com/AnotherEngineerHere/otp-service",
-        demo: "https://github.com/AnotherEngineerHere/otp-service",
-        details: "The OTP Service generates and validates one-time passwords for secure user authentication. Implemented with Spring Boot and WebFlux, it ensures real-time processing and scalability. The service includes features like OTP generation, validation, and expiration handling."
+        title: "Real-time Chat App",
+        description: "A chat application using WebSockets and React, allowing instant messaging and file sharing between users.",
+        image: "/chat-app.jpg",
+        tags: ['React', 'Socket.io', 'Express', 'Redis'],
+        github: "https://github.com/johndoe/realtime-chat",
+        demo: "https://realtime-chat-demo.com",
+        details: "This real-time chat application enables users to communicate instantly and share files seamlessly. Built with React on the frontend and Express on the backend, it leverages Socket.io for real-time bidirectional event-based communication. Redis is used as a message broker to ensure scalability. Features include private messaging, group chats, file uploads, message history, and real-time notifications."
       },
       {
         title: "Portfolio Website",
-        description: "This single-page portfolio built with Next.js showcases my projects and skills with a modern, responsive design.",
+        description: "This single-page portfolio built with Next.js, showcasing my projects and skills with a modern, responsive design.",
         image: "/portfolio-website.jpg",
-        tags: ['Next.js', 'TailwindCSS'],
-        github: "https://github.com/AnotherEngineerHere/portfolio",
-        demo: "https://your-portfolio-demo.com",
-        details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
+        tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
+        github: "https://github.com/johndoe/portfolio",
+        demo: "https://johndoe-portfolio.com",
+        details: "My personal portfolio website, built using Next.js and styled with TailwindCSS. It features a responsive design, smooth scrolling animations powered by Framer Motion, and dynamic content loading. The site showcases my projects, skills, and professional experience in an interactive and visually appealing manner. It also includes a contact form and integrates with a headless CMS for easy content updates."
       }
     ],
     es: [
       {
-        title: "Acortador de URLs",
-        description: "Un servicio de acortamiento de URLs simple y eficiente que permite a los usuarios acortar URLs largas y rastrear clics.",
-        image: "/url-shortener.jpg",
-        tags: ['Java', 'Spring Boot', 'Docker'],
-        github: "https://github.com/AnotherEngineerHere/url-shortener",
-        demo: "https://url-shortener-demo.com",
-        details: "Este acortador de URLs proporciona a los usuarios una interfaz sencilla para crear enlaces acortados. Construido con Java y Spring Boot, el servicio está containerizado usando Docker para facilitar el despliegue. Las características incluyen rastreo de enlaces, autenticación de usuarios y un panel de control simple para gestionar enlaces."
+        title: "Sitio Web de Comercio Electrónico",
+        description: "Una tienda en línea responsiva construida con React y Node.js, con actualizaciones de inventario en tiempo real y procesamiento seguro de pagos.",
+        image: "/ecommerce-project.jpg",
+        tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+        github: "https://github.com/johndoe/ecommerce-project",
+        demo: "https://ecommerce-project-demo.com",
+        details: "Esta plataforma de comercio electrónico ofrece una experiencia de compra fluida con características como seguimiento de inventario en tiempo real, pagos seguros a través de Stripe y un diseño responsivo para usuarios móviles y de escritorio. El proyecto utiliza React para el frontend, Node.js y Express para el backend, y MongoDB para el almacenamiento de datos. Las características clave incluyen autenticación de usuarios, búsqueda y filtrado de productos, funcionalidad de carrito de compras y seguimiento de pedidos."
       },
       {
-        title: "Servicio de OTP",
-        description: "Un servicio seguro para generar y validar contraseñas de un solo uso (OTP) para la autenticación de usuarios.",
-        image: "/otp-service.jpg",
-        tags: ['Java', 'Spring Boot', 'WebFlux'],
-        github: "https://github.com/AnotherEngineerHere/otp-service",
-        demo: "https://otp-service-demo.com",
-        details: "El Servicio de OTP genera y valida contraseñas de un solo uso para la autenticación segura de usuarios. Implementado con Spring Boot y WebFlux, asegura procesamiento en tiempo real y escalabilidad. El servicio incluye características como generación de OTP, validación y manejo de expiración."
+        title: "Aplicación de Chat en Tiempo Real",
+        description: "Una aplicación de chat que utiliza WebSockets y React, permitiendo mensajería instantánea y compartir archivos entre usuarios.",
+        image: "/chat-app.jpg",
+        tags: ['React', 'Socket.io', 'Express', 'Redis'],
+        github: "https://github.com/johndoe/realtime-chat",
+        demo: "https://realtime-chat-demo.com",
+        details: "Esta aplicación de chat en tiempo real permite a los usuarios comunicarse instantáneamente y compartir archivos sin problemas. Construida con React en el frontend y Express en el backend, utiliza Socket.io para la comunicación bidireccional en tiempo real basada en eventos. Redis se utiliza como intermediario de mensajes para garantizar la escalabilidad. Las características incluyen mensajería privada, chats grupales, carga de archivos, historial de mensajes y notificaciones en tiempo real."
       },
       {
         title: "Sitio Web de Portafolio",
         description: "Este portafolio de una sola página construido con Next.js, mostrando mis proyectos y habilidades con un diseño moderno y responsivo.",
         image: "/portfolio-website.jpg",
-        tags: ['Next.js', 'TailwindCSS'],
-        github: "https://github.com/AnotherEngineerHere/portfolio",
-        demo: "https://your-portfolio-demo.com",
-        details: "Mi sitio web de portafolio personal, construido usando Next.js y estilizado con TailwindCSS. Cuenta con un diseño responsivo, animaciones de desplazamiento suave impulsadas y carga de contenido dinámico. El sitio muestra mis proyectos, habilidades y experiencia profesional de una manera interactiva y visualmente atractiva. También incluye un formulario de contacto y se integra con un CMS sin cabeza para facilitar las actualizaciones de contenido."
+        tags: ['Next.js', 'TailwindCSS', 'Framer Motion'],
+        github: "https://github.com/johndoe/portfolio",
+        demo: "https://johndoe-portfolio.com",
+        details: "Mi sitio web de  portafolio personal, construido usando Next.js y estilizado con TailwindCSS. Cuenta con un diseño responsivo, animaciones de desplazamiento suave impulsadas por Framer Motion y carga de contenido dinámico. El sitio muestra mis proyectos, habilidades y experiencia profesional de una manera interactiva y visualmente atractiva. También incluye un formulario de contacto y se integra con un CMS sin cabeza para facilitar las actualizaciones de contenido."
       }
     ]
-  };
+  }
 
 
   const showProjectDetails = (project: { image: any; title: any; description?: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactPortal | Promise<AwaitedReactNode> | Iterable<ReactNode> | null | undefined; tags?: any[]; github?: string | URL | undefined; demo?: string | URL | undefined; details?: any }) => {
@@ -318,8 +317,8 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
 
   return (
     <Section id="projects" title={t.myProjects} setActiveSection={setActiveSection}>
-      <div className="grid md:grid-cols-2 gap-8">
-        {projects[language].map((project: { image: string | StaticImport; title: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; tags: any[]; github: string | URL | undefined; demo: string | URL | undefined }, index: Key | null | undefined) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects[language].map((project, index) => (
           <Card key={index} className="overflow-hidden hover:shadow-md transition-shadow">
             <Image
               src={project.image}
@@ -341,11 +340,11 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
               <Button variant="outline" className="w-full mb-2" onClick={() => showProjectDetails(project)}>
                 {t.moreInfo}
               </Button>
-              <div className="flex justify-between">
-                <Button variant="outline" onClick={() => window.open(project.github, '_blank')}>
+              <div className="flex flex-col sm:flex-row gap-2 sm:justify-between">
+                <Button variant="outline" className="w-full sm:w-auto" onClick={() => window.open(project.github, '_blank')}>
                   <Code className="mr-2 h-4 w-4" /> GitHub
                 </Button>
-                <Button variant="outline" onClick={() => window.open(project.demo, '_blank')}>
+                <Button variant="outline" className="w-full sm:w-auto" onClick={() => window.open(project.demo, '_blank')}>
                   <ExternalLink className="mr-2 h-4 w-4" /> Demo
                 </Button>
               </div>
@@ -359,54 +358,80 @@ function Projects({ setActiveSection, language }: { setActiveSection: (section: 
 
 function Experience({ setActiveSection, language }: { setActiveSection: (section: string) => void, language: string }) {
   const t = translations[language]
-  const experiences = {
+  const experiences: { [key in Language]: Experience[] } = {
     en: [
       {
-        title: "Backend Developer",
-        company: "Codesa",
-        period: "July 2023 - Present",
-        description: "Optimized and refactored Spring Boot microservices, resulting in improved response time and a more scalable architecture.",
+        title: "Senior Developer",
+        company: "Tech Co.",
+        period: "2020 - Present",
+        description: "Led a team of developers in creating innovative web solutions, focusing on scalable architectures and performance optimization.",
         details: [
-          "Implemented automated testing procedures, increasing code reliability.",
-          "Spearheaded the implementation of security best practices, ensuring compliance with industry standards.",
-          "Collaborated with cross-functional teams to integrate third-party APIs, enhancing system functionality and user experience.",
-          "Stack: Java 11, Java 8, Spring Boot, MySQL, Oracle SQL, Docker, Python, Linux"
+          "Spearheaded the development of a high-traffic e-commerce platform, resulting in a 40% increase in conversion rates",
+          "Implemented CI/CD pipelines, reducing deployment time by 60% and improving overall team productivity",
+          "Mentored junior developers, conducting code reviews and organizing knowledge-sharing sessions",
+          "Introduced microservices architecture, enhancing system scalability and maintainability"
         ]
       },
       {
-        title: "Software Developer",
-        company: "EyS Ingeniería de Colombia",
-        period: "Nov 2021 - July 2023",
-        description: "Developed and designed dashboards for tracking key metrics, improving data visualization and decision-making.",
+        title: "Junior Developer",
+        company: "Startup Inc.",
+        period: "2018 - 2020",
+        description: "Contributed to the development of various client projects using React and Node.js, improving code quality and implementing best practices.",
         details: [
-          "Applied microservices architecture to enhance the scalability and maintainability of the internal mobile application.",
-          "Introduced and championed coding standards and code review processes, resulting in a reduction in bugs and improved code maintainability.",
-          "Stack: Java 11, Java 8, Spring Boot, MySQL, Docker, Python, Mobile"
+          "Developed and maintained multiple client-facing web applications using React and Redux",
+          "Collaborated with UX/UI designers to implement responsive and accessible front-end solutions",
+          "Optimized database queries and API endpoints, improving application performance by 30%",
+          "Participated in agile development processes, including daily stand-ups and sprint planning"
+        ]
+      },
+      {
+        title: "Intern",
+        company: "Web Solutions LLC",
+        period: "2017 - 2018",
+        description: "Assisted in the development of responsive websites and learned industry best practices, gaining hands-on experience with modern web technologies.",
+        details: [
+          "Assisted in the development of responsive websites for small to medium-sized businesses",
+          "Learned and applied best practices in HTML5, CSS3, and JavaScript",
+          "Contributed to the company's internal tool for project management, built with React",
+          "Participated in code reviews and improved coding skills through mentor feedback"
         ]
       }
     ],
     es: [
       {
-        title: "Desarrollador Backend",
-        company: "Codesa",
-        period: "Julio 2023 - Presente",
-        description: "Optimizé y refactoricé microservicios en Spring Boot, resultando en una mejora en el tiempo de respuesta y una arquitectura más escalable.",
+        title: "Desarrollador Senior",
+        company: "Tech Co.",
+        period: "2020 - Presente",
+        description: "Lideré un equipo de desarrolladores en la creación de soluciones web innovadoras, enfocándome en arquitecturas escalables y optimización del rendimiento.",
         details: [
-          "Implementé procedimientos de pruebas automatizadas, aumentando la fiabilidad del código.",
-          "Encabecé la implementación de mejores prácticas de seguridad, asegurando el cumplimiento de los estándares de la industria.",
-          "Colaboré con equipos multifuncionales para integrar APIs de terceros, mejorando la funcionalidad del sistema y la experiencia del usuario.",
-          "Stack: Java 11, Java 8, Spring Boot, MySQL, Oracle SQL, Docker, Python, Linux"
+          "Encabecé el desarrollo de una plataforma de comercio electrónico de alto tráfico, resultando en un aumento del 40% en las tasas de conversión",
+          "Implementé pipelines de CI/CD, reduciendo el tiempo de despliegue en un 60% y mejorando la productividad general del equipo",
+          "Mentoré a desarrolladores junior, realizando revisiones de código y organizando sesiones de intercambio de conocimientos",
+          "Introduje arquitectura de microservicios, mejorando la escalabilidad y mantenibilidad del sistema"
         ]
       },
       {
-        title: "Desarrollador de Software",
-        company: "EyS Ingeniería de Colombia",
-        period: "Nov 2021 - Julio 2023",
-        description: "Desarrollé y diseñé tableros para el seguimiento de métricas clave, mejorando la visualización de datos y la toma de decisiones.",
+        title: "Desarrollador Junior",
+        company: "Startup Inc.",
+        period: "2018 - 2020",
+        description: "Contribuí al desarrollo de varios proyectos de clientes utilizando React y Node.js, mejorando la calidad del código e implementando mejores prácticas.",
         details: [
-          "Apliqué arquitectura de microservicios para mejorar la escalabilidad y mantenibilidad de la aplicación móvil interna.",
-          "Introduje y defendí estándares de codificación y procesos de revisión de código, resultando en una reducción de errores y mejor mantenibilidad del código.",
-          "Stack: Java 11, Java 8, Spring Boot, MySQL, Docker, Python, Móvil"
+          "Desarrollé y mantuve múltiples aplicaciones web orientadas al cliente utilizando React y Redux",
+          "Colaboré con diseñadores UX/UI para implementar soluciones front-end responsivas y accesibles",
+          "Optimicé consultas de base de datos y endpoints de API, mejorando el rendimiento de la aplicación en un 30%",
+          "Participé en procesos de desarrollo ágil, incluyendo reuniones diarias y planificación de sprints"
+        ]
+      },
+      {
+        title: "Pasante",
+        company: "Web Solutions LLC",
+        period: "2017 - 2018",
+        description: "Asistí en el desarrollo de sitios web responsivos y aprendí las mejores prácticas de la industria, ganando experiencia práctica con tecnologías web modernas.",
+        details: [
+          "Asistí en el desarrollo de sitios web responsivos para pequeñas y medianas empresas",
+          "Aprendí y apliqué las mejores prácticas en HTML5, CSS3 y JavaScript",
+          "Contribuí a la herramienta interna de gestión de proyectos de la empresa, construida con React",
+          "Participé en revisiones de código y mejoré mis habilidades de programación a través de la retroalimentación de mentores"
         ]
       }
     ]
@@ -450,11 +475,11 @@ function Experience({ setActiveSection, language }: { setActiveSection: (section
   return (
     <Section id="experience" title={t.myExperience} setActiveSection={setActiveSection}>
       <div className="space-y-8">
-        {experiences[language].map((exp: { title: any; company: any; period: any; description?: any; details?: any[] }, index: Key | null | undefined) => (
-          <div key={index} className="flex">
-            <div className="flex flex-col items-center mr-4">
+        {experiences[language].map((exp, index) => (
+          <div key={index} className="flex flex-col sm:flex-row">
+            <div className="flex flex-row sm:flex-col items-center sm:items-start mr-4 mb-4 sm:mb-0">
               <div className="w-3 h-3 bg-primary rounded-full" />
-              {index !== experiences[language].length - 1 && <div className="w-0.5 h-full bg-primary/30" />}
+              {index !== experiences[language].length - 1 && <div className="w-full sm:w-0.5 h-0.5 sm:h-full bg-primary/30 mx-2 sm:mx-0 my-0 sm:my-2" />}
             </div>
             <div>
               <h3 className="text-xl font-semibold">{exp.title}</h3>
@@ -477,42 +502,30 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
   const education = {
     en: [
       {
-        degree: "Associate Degree in Multimedia and Web Development",
-        school: "SENA",
-        year: "In progress",
-        description: "Developed skills in multimedia production and web development."
+        degree: "Master of Science in Computer Science",
+        school: "Tech University",
+        year: "2018",
+        description: "Focused on advanced web technologies and machine learning, completing a thesis on real-time data processing in web applications."
       },
       {
-        degree: "Engineering Degree in Software Engineering",
-        school: "UNAD",
-        year: "In progress",
-        description: "Focused on software engineering principles and practices."
-      },
-      {
-        degree: "Engineering Degree in Software Engineering",
-        school: "Universidad Icesi",
-        year: "Not completed",
-        description: "Studied software engineering with a focus on advanced programming and project management."
+        degree: "Bachelor of Science in Software Engineering",
+        school: "State University",
+        year: "2016",
+        description: "Gained a strong foundation in software development principles and practices, with a minor in User Experience Design."
       }
     ],
     es: [
       {
-        degree: "Tecnólogo en Desarrollo Multimedia y Web",
-        school: "SENA",
-        year: "En Curso",
-        description: "Desarrollé habilidades en producción multimedia y desarrollo web."
+        degree: "Maestría en Ciencias de la Computación",
+        school: "Universidad Tecnológica",
+        year: "2018",
+        description: "Enfocado en tecnologías web avanzadas y aprendizaje automático, completando una tesis sobre procesamiento de datos en tiempo real en aplicaciones web."
       },
       {
-        degree: "Ingeniería en Software",
-        school: "UNAD",
-        year: "En curso",
-        description: "Enfocado en principios y prácticas de ingeniería de software."
-      },
-      {
-        degree: "Ingeniería en Software",
-        school: "Universidad Icesi",
-        year: "No completada",
-        description: "Estudié ingeniería de software con un enfoque en programación avanzada y gestión de proyectos."
+        degree: "Licenciatura en Ingeniería de Software",
+        school: "Universidad Estatal",
+        year: "2016",
+        description: "Obtuve una sólida base en principios y prácticas de desarrollo de software, con una especialización en Diseño de Experiencia de Usuario."
       }
     ]
   };
@@ -520,18 +533,16 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
 
   const courses = {
     en: [
-      "Introduction to Terminal and Command Line by Platzi",
-      "Fundamentals of Software Engineering by Platzi",
-      "DevOps on AWS and Project Management Course",
-      "AWS Cloud Foundations",
-      "EF Certificate by EF"
+      "Advanced React and Redux: Building Scalable Web Apps",
+      "Node.js: The Complete Guide to Building RESTful APIs",
+      "Machine Learning with Python: From Linear Models to Deep Learning",
+      "AWS Certified Developer - Associate"
     ],
     es: [
-      "Introducción a la Terminal y Línea de Comandos de Platzi",
-      "Fundamentos de Ingeniería de Software de Platzi",
-      "Curso de DevOps en AWS y Gestión de Proyectos",
-      "Fundamentos de la Nube de AWS",
-      "Certificado EF de EF"
+      "React y Redux Avanzado: Construyendo Aplicaciones Web Escalables",
+      "Node.js: La Guía Completa para Construir APIs RESTful",
+      "Aprendizaje Automático con Python: De Modelos Lineales a Aprendizaje Profundo",
+      "Desarrollador Certificado de AWS - Asociado"
     ]
   }
 
@@ -555,9 +566,9 @@ function Education({ setActiveSection, language }: { setActiveSection: (section:
         <div>
           <h3 className="text-2xl font-semibold mb-4">{t.additionalCourses}</h3>
           <ul className="space-y-2">
-            {courses[language].map((course: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined, index: Key | null | undefined) => (
-              <li key={index} className="flex items-center">
-                <ChevronRight className="h-4 w-4 mr-2 text-primary" />
+            {courses[language].map((course, index) => (
+              <li key={index} className="flex items-start">
+                <ChevronRight className="h-4 w-4 mr-2 mt-1 flex-shrink-0 text-primary" />
                 <span>{course}</span>
               </li>
             ))}
