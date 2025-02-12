@@ -221,14 +221,14 @@ function AboutMe({ setActiveSection, language }: AboutMeProps): JSX.Element {
   const t = translations[language]
   const content = {
     en: {
-      description1: "Hello! I'm Juan Andrés Orozco Núñez, a Senior Developer with expertise in backend development using Java, Spring Boot, and AWS. I focus on building scalable and robust microservices that optimize application performance.",
+      description1: "Hello! I'm Juan Andrés Orozco Núñez, a backend developer with expertise in Java 8, 11, and 17, Spring Boot, and AWS. I focus on building scalable, high-performing solutions for mobile apps, e-commerce, and IoT systems.",
       description2: "With a strong foundation in software architecture and cloud services, I strive to create efficient solutions for complex problems. I'm committed to best practices, always eager to learn new technologies, and stay up-to-date with the latest industry trends."
     },
     es: {
-      description1: "¡Hola! Soy Juan Andrés Orozco Núñez, Senior Developer con experiencia en desarrollo backend utilizando Java, Spring Boot y AWS. Me enfoco en construir microservicios escalables y robustos que optimizan el rendimiento de las aplicaciones.",
+      description1: "¡Hola! Soy Juan Andrés Orozco Núñez, desarrollador backend con experiencia en Java 8, 11 y 17, Spring Boot y AWS. Me enfoco en construir soluciones escalables y de alto rendimiento para aplicaciones móviles, comercio electrónico y sistemas IoT.",
       description2: "Con una sólida base en arquitectura de software y servicios en la nube, me esfuerzo por crear soluciones eficientes para problemas complejos. Estoy comprometido con las buenas prácticas, siempre dispuesto a aprender nuevas tecnologías y mantenerme actualizado con las últimas tendencias de la industria."
     }
-  }
+  } 
 
   return (
     <Section id="about" title={t.aboutMe} setActiveSection={setActiveSection}>
@@ -572,15 +572,11 @@ function Education({ setActiveSection, language }: EducationProps): JSX.Element 
 
   const courses: { [key in Language]: string[] } = {
     en: [
-      "Introduction to Terminal and Command Line by Platzi",
-      "Fundamentals of Software Engineering by Platzi",
       "DevOps on AWS and Project Management Course",
       "AWS Cloud Foundations",
       "EF Certificate by EF"
     ],
     es: [
-      "Introducción a la Terminal y Línea de Comandos de Platzi",
-      "Fundamentos de Ingeniería de Software de Platzi",
       "Curso de DevOps en AWS y Gestión de Proyectos",
       "Fundamentos de la Nube de AWS",
       "Certificado EF de EF"
