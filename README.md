@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Personal - Juan Andres Orozco Nuñez
 
-## Getting Started
+Portfolio personal desarrollado con Next.js 14, TypeScript y Tailwind CSS. Este proyecto muestra mis habilidades, experiencia y proyectos de manera interactiva y moderna.
 
-First, run the development server:
+## 🌟 Características
 
+- 🎨 Diseño moderno y responsivo
+- 🌓 Modo claro/oscuro
+- 🌐 Soporte multiidioma (Español/Inglés)
+- 📱 Totalmente adaptativo para móviles
+- ⚡ Optimizado para rendimiento
+- 🔍 SEO friendly
+- 🎯 Accesibilidad mejorada
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Framework:** Next.js 14
+- **Lenguaje:** TypeScript
+- **Estilos:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Animaciones:** Framer Motion
+- **Notificaciones:** React Hot Toast
+- **Gestión de Temas:** next-themes
+- **Optimización de Imágenes:** Next.js Image
+- **Iconos:** Lucide Icons
+
+## 🚀 Instalación
+
+1. Clona el repositorio:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AnotherEngineerHere/portfolioreact.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instala las dependencias:
+```bash
+cd portfolioreact
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Inicia el servidor de desarrollo:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-## Learn More
+## 📁 Estructura del Proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```
+portfolioreact/
+├── app/
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── AboutMe.tsx
+│   ├── Education.tsx
+│   ├── Experience.tsx
+│   ├── Projects.tsx
+│   ├── Section.tsx
+│   ├── ThemeToggle.tsx
+│   └── WhatsAppButton.tsx
+├── data/
+│   ├── content.ts
+│   └── translations.ts
+├── hooks/
+│   └── useToastLimit.ts
+├── types/
+│   └── index.ts
+└── utils/
+    └── cvDownload.ts
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Configuración
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## 📱 Características Principales
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Secciones
+- **Sobre Mí:** Información personal y habilidades
+- **Proyectos:** Portfolio de proyectos con detalles y enlaces a GitHub
+- **Experiencia:** Historial laboral con detalles expandibles
+- **Educación:** Formación académica y cursos adicionales
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Funcionalidades
+- Navegación suave entre secciones
+- Vista detallada de proyectos y experiencia
+- Descarga de CV en múltiples idiomas
+- Botón de contacto directo por WhatsApp
+- Interfaz adaptativa para todos los dispositivos
+
+## 🌐 Internacionalización
+
+El sitio está disponible en:
+- Español (idioma predeterminado)
+- Inglés
+
+## 🎨 Temas
+
+- Modo claro
+- Modo oscuro
+- Detección automática de preferencias del sistema
+
+## 📦 Optimizaciones
+
+- Lazy loading de imágenes
+- Optimización de fuentes
+- Componentes dinámicos
+- Límite de notificaciones toast
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue primero para discutir los cambios que te gustaría hacer.
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 📞 Contacto
+
+- LinkedIn: [Juan Andres Orozco Nuñez](https://www.linkedin.com/in/andres-orozco-nunez)
+- GitHub: [@AnotherEngineerHere](https://github.com/AnotherEngineerHere)
+- Email: juan.orozcon99@gmail.com
+- WhatsApp: +57 316 579 6519
