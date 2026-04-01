@@ -7,6 +7,7 @@ export interface Translations {
 }
 
 export interface Project {
+  id: string
   title: string
   description: string
   image: string
@@ -17,9 +18,11 @@ export interface Project {
 }
 
 export interface Experience {
+  id: string
   title: string
   company: string
   period: string
+  location: string
   description: string
   details: string[]
 }
@@ -28,6 +31,22 @@ export interface Education {
   degree: string
   school: string
   year: string
+  description: string
+}
+
+export interface Certification {
+  name: string
+  year: string
+}
+
+export interface SkillCategory {
+  category: string
+  items: string[]
+}
+
+export interface Profile {
+  title: string
+  location: string
   description: string
 }
 

@@ -115,10 +115,6 @@ export function Page(): JSX.Element {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }
 
-  const toggleLanguage = (): void => {
-    setLanguage(prevLang => prevLang === 'en' ? 'es' : 'en')
-  }
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Toaster position="top-center" />
